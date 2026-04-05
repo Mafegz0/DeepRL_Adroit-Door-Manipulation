@@ -1,74 +1,72 @@
 # Deep Reinforcement Learning – Adroit Door Manipulation (PPO vs SAC)
 
-## Descripción del Proyecto
+# Project Description
 
-Este proyecto implementa agentes de Aprendizaje por Refuerzo Profundo (Deep Reinforcement Learning) para resolver una tarea de manipulación robótica en el entorno AdroitHandDoor-v1 utilizando los algoritmos Proximal Policy Optimization (PPO) y Soft Actor-Critic (SAC) mediante la librería Stable-Baselines3.
+This project implements Deep Reinforcement Learning agents to solve a robotic manipulation task in the AdroitHandDoor-v1 environment using Proximal Policy Optimization (PPO) and Soft Actor-Critic (SAC) algorithms with the Stable-Baselines3 library.
 
-El objetivo del agente es aprender a controlar una mano robótica con múltiples grados de libertad para interactuar con la manija de una puerta y ejecutar movimientos que permitan abrirla.
+The goal of the agent is to learn how to control a robotic hand with multiple degrees of freedom to interact with a door handle and execute movements to open the door. 
+Deep Reinforcement Learning – Adroit Door Manipulation (PPO vs SAC)
 
-## ¿Qué es Adroit Hand Door?
+## What is Adroit Hand Door?
 
-El entorno Adroit Hand Door pertenece al paquete Gymnasium Robotics y simula una mano robótica Shadow Hand con aproximadamente 30 grados de libertad.
+The Adroit Hand Door environment belongs to the Gymnasium Robotics package and simulates a Shadow Hand robotic system with approximately 30 degrees of freedom.
 
-El agente debe aprender a:
+The agent must learn to:
 
-- Posicionar la mano correctamente frente a la puerta.
-- Acercarse a la manija.
-- Realizar movimientos de agarre.
-- Aplicar acciones coordinadas para abrir la puerta.
+- Position the hand correctly in front of the door
+- Move toward the handle
+- Perform grasping movements
+- Apply coordinated actions to open the door
 
-Desde la perspectiva del aprendizaje por refuerzo, este entorno presenta desafíos importantes:
+From a reinforcement learning perspective, this environment presents significant challenges:
 
-- Espacio de acción continuo de alta dimensión  
-- Gran número de grados de libertad  
-- Dinámica física compleja simulada en MuJoCo  
-- Necesidad de coordinación fina entre articulaciones  
+High-dimensional continuous action space
+Large number of degrees of freedom
+Complex physics dynamics simulated in MuJoCo
+Fine coordination required between joints
 
-Estas características lo convierten en un entorno adecuado para evaluar algoritmos avanzados de control continuo.
+These characteristics make it a suitable environment for evaluating advanced continuous control algorithms.
 
 ## Objetivo del Proyecto
 
-Entrenar agentes capaces de aprender una política que supere el comportamiento aleatorio en el entorno AdroitHandDoor-v1, utilizando diferentes algoritmos de aprendizaje por refuerzo profundo.
+Train agents capable of learning a policy that outperforms random behavior in the AdroitHandDoor-v1 environment using different deep reinforcement learning algorithms.
 
-El proyecto compara específicamente el desempeño de:
+This project specifically compares the performance of:
 
-- Proximal Policy Optimization (PPO)  
-- Soft Actor-Critic (SAC)  
+Proximal Policy Optimization (PPO)
+Soft Actor-Critic (SAC)
 
-Analizando:
+Analyzing:
+- Learning stability
+- Training efficiency
+- Exploration capability
+- Final agent performance
 
-- estabilidad del aprendizaje  
-- eficiencia del entrenamiento  
-- capacidad de exploración  
-- desempeño final del agente  
-
-## Algoritmos Implementados
+## Implemented Algorithms
 
 ### Proximal Policy Optimization (PPO)
 
-PPO es un algoritmo on-policy basado en gradientes de política que optimiza la política del agente mediante una función objetivo con clipping, evitando actualizaciones demasiado grandes que puedan desestabilizar el aprendizaje.
+PPO is an on-policy policy-gradient algorithm that optimizes the agent’s policy using a clipped objective function, preventing excessively large updates that could destabilize learning.
 
-Características principales:
+Key features:
+- Stable policy updates
+- Generalized Advantage Estimation (GAE)
+- Minibatch optimization
+- Joint actor-critic training
 
-- Actualización estable de la política  
-- Uso de Generalized Advantage Estimation (GAE)  
-- Optimización por minibatches  
-- Entrenamiento directo de actor y crítico  
-
-Aunque PPO es robusto y ampliamente utilizado, en entornos de control continuo de alta dimensionalidad puede requerir mayor cantidad de interacciones con el entorno.
+Although PPO is robust and widely used, in high-dimensional continuous control environments it may require more interactions with the environment. Algoritmos Implementados
 
 ### Soft Actor-Critic (SAC)
 
-SAC es un algoritmo off-policy diseñado para espacios de acción continuos. Utiliza el principio de máxima entropía, lo que fomenta la exploración del agente durante el aprendizaje.
+SAC is an off-policy algorithm designed for continuous action spaces. It uses the maximum entropy principle, encouraging exploration during training.
 
-Características principales:
+Key features:
+- Replay buffer for experience reuse
+- Actor-critic optimization
+- Entropy regularization
+- Efficient exploration via State Dependent Exploration (SDE)
 
-- Replay Buffer para reutilizar experiencias  
-- Optimización actor–critic  
-- Regularización por entropía  
-- Exploración eficiente mediante State Dependent Exploration (SDE)  
-
-Este enfoque permite un aprendizaje más eficiente en entornos complejos como la manipulación robótica.
+This approach enables more efficient learning in complex environments such as robotic manipulation.
 
 ## Configuración del Entrenamiento
 
@@ -85,7 +83,7 @@ Este enfoque permite un aprendizaje más eficiente en entornos complejos como la
 
 ### SAC
 
-Configuración optimizada utilizada:
+Optimized configuration used:
 
 - Total timesteps: 300,000  
 - Learning rate: 3e-4  
@@ -100,32 +98,30 @@ Configuración optimizada utilizada:
 - Activación: ReLU  
 - Dispositivo: GPU (CUDA)  
 
-## Resultados
+## Results
 
-Los experimentos muestran diferencias claras entre los algoritmos.
+The experiments show clear differences between algorithms.
 
 ### PPO
+- Approximate average reward: -31
+- Limited learning
+- Slight improvement over random policy 
 
-- Recompensa promedio aproximada: -31  
-- Aprendizaje limitado  
-- Mejora leve respecto a política aleatoria  
+### SAC (optimized)
+- Average reward: 1111.60
+- High variability between episodes
+- Episodes with rewards above 3000
 
-### SAC (optimizado)
+This indicates that SAC better explores the action space and learns more effective behaviors to manipulate the door.
 
-- Recompensa promedio: 1111.60  
-- Alta variabilidad entre episodios  
-- Episodios con recompensas superiores a 3000  
+## TensorBoard Analysis
 
-Esto indica que SAC logra explorar mejor el espacio de acciones y aprender comportamientos más efectivos para manipular la puerta.
+TensorBoard graphs clearly show differences in learning behavior between both algorithms.
 
-## Análisis con TensorBoard
+PPO curves remain close to negative values during training.
+SAC curves show a significant increase in average reward after approximately 200k steps, reaching values above 200 on average.
 
-Las gráficas de TensorBoard muestran claramente la diferencia en el comportamiento de aprendizaje entre ambos algoritmos.
-
-Las curvas de PPO permanecen cerca de valores negativos durante el entrenamiento.  
-La curva de SAC presenta un aumento significativo en la recompensa promedio a partir de aproximadamente 200k pasos, alcanzando valores superiores a 200 en promedio.
-
-Esto evidencia que SAC logra desarrollar una política más efectiva para este entorno de control continuo.
+This demonstrates that SAC develops a more effective policy for this continuous control environment.
 
 ## Contenido del Repositorio
 ```
@@ -140,10 +136,9 @@ AdroitDoor/
 │   └── checkpoints/
 └── Adroit_Door_PPO_SAC_final.ipynb
 ```
+The included videos show the learned agent behavior during training..
 
-Los videos incluidos muestran el comportamiento del agente aprendido durante el entrenamiento.
-
-## Hardware Utilizado
+## Hardware Used
 
 - Google Colab  
 - GPU NVIDIA (CUDA)  
@@ -151,8 +146,10 @@ Los videos incluidos muestran el comportamiento del agente aprendido durante el 
 - Gymnasium Robotics  
 - MuJoCo
   
-## Conclusión
+## Conclusion
 
-Los resultados obtenidos muestran que Soft Actor-Critic (SAC) es significativamente más efectivo que PPO para resolver el problema de manipulación robótica en AdroitHandDoor-v1. Mientras PPO presenta mejoras limitadas sobre una política aleatoria, SAC logra aprender políticas más complejas gracias a su enfoque off-policy, el uso de replay buffer y la optimización basada en máxima entropía, lo que facilita una exploración más eficiente del espacio de acciones.
+The results show that Soft Actor-Critic (SAC) is significantly more effective than PPO for solving the robotic manipulation problem in AdroitHandDoor-v1.
 
-En consecuencia, los experimentos evidencian que algoritmos off-policy como SAC presentan ventajas importantes en entornos de control continuo y alta dimensionalidad como los de manipulación robótica.
+While PPO shows limited improvement over a random policy, SAC learns more complex behaviors thanks to its off-policy approach, replay buffer, and maximum entropy optimization, which enables more efficient exploration of the action space.
+
+Therefore, the experiments demonstrate that off-policy algorithms such as SAC provide important advantages in high-dimensional continuous control environments, particularly in robotic manipulation tasks.
